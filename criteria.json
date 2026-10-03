@@ -1,0 +1,74 @@
+[
+  {
+    "name": "Purchase Price",
+    "weight": 0.05322209436133487,
+    "weight_pct": 5.32,
+    "rationale": "Controls upfront cash/finance exposure and preserves budget headroom."
+  },
+  {
+    "name": "Resale Value / Depreciation",
+    "weight": 0.17405063291139242,
+    "weight_pct": 17.41,
+    "rationale": "A liquid UAE secondary market and strong retained value reduce net ownership cost and exit risk."
+  },
+  {
+    "name": "Reliability & Maintainability",
+    "weight": 0.1498849252013809,
+    "weight_pct": 14.99,
+    "rationale": "Predictable reliability, service effort and repair cost matter in UAE heat and high-mileage use."
+  },
+  {
+    "name": "Service Network & Parts Availability",
+    "weight": 0.10845799769850403,
+    "weight_pct": 10.85,
+    "rationale": "Strong UAE workshop coverage and parts availability reduce downtime."
+  },
+  {
+    "name": "Comfort & NVH",
+    "weight": 0.12802071346375146,
+    "weight_pct": 12.8,
+    "rationale": "Seat comfort, ride, cabin noise, HVAC and rear-passenger comfort matter for daily and inter-emirate use."
+  },
+  {
+    "name": "Safety & ADAS",
+    "weight": 0.07623705408515534,
+    "weight_pct": 7.62,
+    "rationale": "Passive safety and effective ADAS reduce operational risk in dense urban and highway driving."
+  },
+  {
+    "name": "UAE Climate & Road Suitability",
+    "weight": 0.06357882623705409,
+    "weight_pct": 6.36,
+    "rationale": "GCC specification, cooling, tyres/brakes, clearance and heat/dust robustness."
+  },
+  {
+    "name": "Total Cost of Ownership",
+    "weight": 0.09119677790563867,
+    "weight_pct": 9.12,
+    "rationale": "Fuel/energy, insurance, service, tyres and registration determine recurring ownership cost."
+  },
+  {
+    "name": "Practicality & Space",
+    "weight": 0.04516685845799769,
+    "weight_pct": 4.52,
+    "rationale": "Passenger/cargo capacity, rear-seat usability and loading flexibility."
+  },
+  {
+    "name": "Fuel Economy / Driving Range",
+    "weight": 0.03941311852704258,
+    "weight_pct": 3.94,
+    "rationale": "Energy use and practical range affect recurring cost and convenience."
+  },
+  {
+    "name": "Performance & Driveability",
+    "weight": 0.035960874568469504,
+    "weight_pct": 3.6,
+    "rationale": "Power delivery, braking, steering, visibility and stability."
+  },
+  {
+    "name": "Technology & Convenience",
+    "weight": 0.03481012658227848,
+    "weight_pct": 3.48,
+    "rationale": "Infotainment, smartphone integration, cameras, charging/connectivity and ergonomics."
+  }
+]
