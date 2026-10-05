@@ -19,56 +19,92 @@ st.markdown(
     """
     <style>
       .block-container {padding-top: 1.2rem; padding-bottom: 3rem; max-width: 1500px;}
-      [data-testid="stSidebar"] {background: #f7f8fb;}
+
+      /* Theme-aware surfaces: do not hard-code light backgrounds because
+         Streamlit can render the app in either light or dark mode. */
+      [data-testid="stSidebar"] {
+        background: var(--secondary-background-color);
+        color: var(--text-color);
+      }
+      [data-testid="stSidebar"] label,
+      [data-testid="stSidebar"] p,
+      [data-testid="stSidebar"] h1,
+      [data-testid="stSidebar"] h2,
+      [data-testid="stSidebar"] h3 {
+        color: var(--text-color) !important;
+      }
+
       .hero {
         padding: 1.35rem 1.5rem;
-        border: 1px solid #e5e7eb;
+        border: 1px solid rgba(148, 163, 184, .45);
         border-radius: 18px;
         background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%);
         color: white;
         margin-bottom: 1rem;
       }
-      .hero h1 {margin: 0; font-size: 2rem; line-height: 1.2;}
+      .hero h1 {margin: 0; font-size: 2rem; line-height: 1.2; color: white;}
       .hero p {margin: .55rem 0 0; color: #dbeafe;}
       .eyebrow {font-size: .76rem; letter-spacing: .08em; text-transform: uppercase; opacity: .85;}
+
       .vehicle-card {
-        border: 1px solid #e5e7eb;
+        border: 1px solid rgba(148, 163, 184, .32);
         border-radius: 16px;
         padding: 1rem;
-        background: white;
+        background: var(--secondary-background-color);
+        color: var(--text-color);
         min-height: 230px;
         margin-bottom: .8rem;
       }
-      .vehicle-card h3 {margin: 0 0 .25rem 0; font-size: 1.05rem;}
-      .muted {color: #64748b; font-size: .88rem;}
+      .vehicle-card h3 {
+        margin: 0 0 .25rem 0;
+        font-size: 1.05rem;
+        color: var(--text-color);
+      }
+      .muted {
+        color: var(--text-color);
+        opacity: .68;
+        font-size: .88rem;
+      }
       .pill {
         display: inline-block;
         border-radius: 999px;
         padding: .2rem .55rem;
         margin: .2rem .15rem .15rem 0;
-        background: #eef2ff;
-        color: #3730a3;
+        background: color-mix(in srgb, var(--primary-color) 16%, var(--secondary-background-color));
+        border: 1px solid color-mix(in srgb, var(--primary-color) 38%, transparent);
+        color: var(--text-color);
         font-size: .74rem;
         font-weight: 600;
       }
       .score {
         font-size: 1.65rem;
         font-weight: 700;
-        color: #0f172a;
+        color: var(--text-color);
       }
       .small-note {
-        border-left: 4px solid #cbd5e1;
+        border-left: 4px solid rgba(148, 163, 184, .55);
         padding: .55rem .8rem;
-        color: #475569;
-        background: #f8fafc;
+        color: var(--text-color);
+        background: var(--secondary-background-color);
         border-radius: 0 10px 10px 0;
       }
-      .compare-title {font-size: .92rem; color: #64748b; margin-bottom: .15rem;}
+      .compare-title {
+        font-size: .92rem;
+        color: var(--text-color);
+        opacity: .68;
+        margin-bottom: .15rem;
+      }
+
       div[data-testid="stMetric"] {
-        border: 1px solid #e5e7eb;
+        border: 1px solid rgba(148, 163, 184, .32);
         padding: .7rem .8rem;
         border-radius: 14px;
-        background: white;
+        background: var(--secondary-background-color);
+        color: var(--text-color);
+      }
+      [data-testid="stMetricLabel"],
+      [data-testid="stMetricValue"] {
+        color: var(--text-color) !important;
       }
     </style>
     """,
@@ -172,7 +208,7 @@ with overview:
         st.write(
             "Honda CR-V LX 2WD 2025 GCC at AED 104,900 remains the baseline recommendation, conditional on VIN, "
             "provenance, warranty-start and registration verification. Toyota RAV4 Hybrid EX remains the lower-risk "
-            "hybrid alternative. BYD Song Plus DM-i used 2025 is the strongest value-oriented electrified addition in the current sheet."
+            "hybrid alternative. BYD Song Plus DM-i used 2025 is the strongest value-oriented electrified addition in the current dataset."
         )
 
     st.subheader("Assumptions")
