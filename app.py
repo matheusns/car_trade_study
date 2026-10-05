@@ -129,6 +129,85 @@ def fmt_km(v):
 def safe_year(v):
     return str(v).replace(".0","")
 
+@st.dialog("Vehicle details", width="large")
+def show_vehicle_details(car_id):
+    match = cars[cars["id"] == car_id]
+    if match.empty:
+        st.error("Vehicle not found in the current repository dataset.")
+        return
+
+    row = match.iloc[0]
+
+    st.markdown(f"## {row['candidate']}")
+    st.caption(f"{safe_year(row['model_year'])} · {row['model_trim']} · {row['acquisition']}")
+    st.markdown(
+        f"""
+        <span class="pill">{row['powertrain']}</span>
+        <span class="pill">{row['state']}</span>
+        <span class="pill">{row['status']}</span>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    m1, m2, m3, m4 = st.columns(4)
+    m1.metric("Reference price", fmt_aed(row["price_aed"]))
+    m2.metric("Mileage", fmt_km(row["mileage_km"]))
+    m3.metric("Trade-study score", f"{row['score_pct']:.1f}/100")
+    m4.metric("Rank", f"#{int(row['rank'])}")
+
+    st.markdown("### Decision evidence")
+    st.write(row["evidence"])
+
+    st.markdown("### Criterion breakdown")
+    detail = criteria[["name", "weight_pct"]].copy()
+    detail["score"] = [float(row[name]) for name in detail["name"]]
+    detail["weighted_points"] = detail["score"] * detail["weight_pct"] / 5.0
+
+    chart_data = detail.sort_values("score", ascending=True)
+    detail_fig = px.bar(
+        chart_data,
+        x="score",
+        y="name",
+        orientation="h",
+        text="score",
+        range_x=[0, 5],
+        labels={"score": "Score (1–5)", "name": ""},
+        height=470,
+    )
+    detail_fig.update_traces(texttemplate="%{text:.0f}", textposition="outside")
+    detail_fig.update_layout(margin=dict(l=10, r=30, t=10, b=10))
+    st.plotly_chart(detail_fig, use_container_width=True)
+
+    st.dataframe(
+        detail.rename(
+            columns={
+                "name": "Criterion",
+                "weight_pct": "Weight (%)",
+                "score": "Score (1–5)",
+                "weighted_points": "Weighted points",
+            }
+        ),
+        use_container_width=True,
+        hide_index=True,
+        column_config={
+            "Weight (%)": st.column_config.NumberColumn(format="%.2f%%"),
+            "Score (1–5)": st.column_config.ProgressColumn(
+                min_value=0,
+                max_value=5,
+                format="%.0f",
+            ),
+            "Weighted points": st.column_config.NumberColumn(format="%.2f"),
+        },
+    )
+
+    st.markdown("### Source & diligence")
+    st.write(
+        f"**Acquisition:** {row['acquisition']}  \\n"
+        f"**Status:** {row['status']}  \\n"
+        f"**Powertrain:** {row['powertrain']}"
+    )
+    st.link_button("Open source / listing", row["source_url"], use_container_width=True)
+
 st.markdown(
     """
     <div class="hero">
@@ -183,8 +262,8 @@ elif sort_by == "Mileage: low → high":
 else:
     filtered = filtered.sort_values(["rank","price_aed"])
 
-overview, explore, compare, methodology = st.tabs(
-    ["Overview", "Explore options", "Compare up to 3", "Criteria & method"]
+overview, all_options, explore, compare, methodology = st.tabs(
+    ["Overview", "All options", "Explore options", "Compare up to 3", "Criteria & method"]
 )
 
 with overview:
@@ -241,6 +320,45 @@ with overview:
     fig.update_layout(margin=dict(l=10,r=10,t=20,b=10), legend_title_text="")
     st.plotly_chart(fig, use_container_width=True)
 
+with all_options:
+    st.subheader("All vehicle options")
+    st.caption(
+        f"Showing {len(filtered)} of {len(cars)} candidates. "
+        "Use the sidebar to filter the catalogue, then open any vehicle for its full decision record."
+    )
+
+    if filtered.empty:
+        st.info("No candidates match the active filters.")
+    else:
+        for _, row in filtered.iterrows():
+            with st.container(border=True):
+                name_col, price_col, score_col, action_col = st.columns([4.5, 1.5, 1.3, 1.2])
+
+                with name_col:
+                    st.markdown(f"**{row['candidate']}**")
+                    st.caption(
+                        f"{safe_year(row['model_year'])} · {row['model_trim']} · "
+                        f"{row['powertrain']} · {row['acquisition']}"
+                    )
+
+                with price_col:
+                    st.caption("Reference price")
+                    st.markdown(f"**{fmt_aed(row['price_aed'])}**")
+                    st.caption(fmt_km(row["mileage_km"]))
+
+                with score_col:
+                    st.caption("Study score")
+                    st.markdown(f"**{row['score_pct']:.1f}/100**")
+                    st.caption(f"Rank #{int(row['rank'])}")
+
+                with action_col:
+                    if st.button(
+                        "View details",
+                        key=f"list_detail_{int(row['id'])}",
+                        use_container_width=True,
+                    ):
+                        show_vehicle_details(int(row["id"]))
+
 with explore:
     st.caption(f"Showing {len(filtered)} of {len(cars)} candidates after sidebar filters.")
     table = filtered[[
@@ -291,6 +409,12 @@ with explore:
                     """,
                     unsafe_allow_html=True,
                 )
+                if st.button(
+                    "View vehicle details",
+                    key=f"card_detail_{int(row['id'])}",
+                    use_container_width=True,
+                ):
+                    show_vehicle_details(int(row["id"]))
                 with st.expander("Evidence & source"):
                     st.write(row["evidence"])
                     st.markdown(f"[Open source listing / reference]({row['source_url']})")
