@@ -201,11 +201,9 @@ def show_vehicle_details(car_id):
     )
 
     st.markdown("### Source & diligence")
-    st.markdown(
-        f"**Acquisition:** {row['acquisition']}  \\n"
-        f"**Status:** {row['status']}  \\n"
-        f"**Powertrain:** {row['powertrain']}"
-    )
+    st.markdown(f"**Acquisition:** {row['acquisition']}")
+    st.markdown(f"**Status:** {row['status']}")
+    st.markdown(f"**Powertrain:** {row['powertrain']}")
     st.link_button("Open source / listing", row["source_url"], use_container_width=True)
 
 st.markdown(
