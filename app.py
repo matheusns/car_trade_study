@@ -353,7 +353,7 @@ with compare:
         matrix = comp.set_index("candidate")[criterion_names].T
         matrix.index.name = "Criterion"
         st.dataframe(
-            matrix.style.highlight_max(axis=1),
+            matrix,
             use_container_width=True,
         )
 
