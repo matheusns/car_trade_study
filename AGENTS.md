@@ -30,7 +30,9 @@ For every request to add or revise a vehicle:
 The web dashboard is the primary interface. New candidates must automatically appear in:
 
 - filtering/exploration,
+- the **All options** catalogue,
 - candidate cards,
+- the reusable per-vehicle detail modal,
 - portfolio visualization,
 - the up-to-3 comparison selector,
 - criterion-by-criterion comparison,
