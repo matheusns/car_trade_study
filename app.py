@@ -201,7 +201,7 @@ def show_vehicle_details(car_id):
     )
 
     st.markdown("### Source & diligence")
-    st.write(
+    st.markdown(
         f"**Acquisition:** {row['acquisition']}  \\n"
         f"**Status:** {row['status']}  \\n"
         f"**Powertrain:** {row['powertrain']}"
