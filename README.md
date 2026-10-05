@@ -31,6 +31,8 @@ See `AGENTS.md` for the repository maintenance contract.
 - 12-criterion weighted trade-study score with evidence notes.
 - Filters for make, powertrain, acquisition state, price, mileage and minimum score.
 - Price-vs-score portfolio visualization.
+- Dedicated **All options** catalogue with the active sidebar filters applied.
+- Per-vehicle **detail modal** with reference price, mileage, powertrain, rank, evidence, source link and the full 12-criterion breakdown.
 - Side-by-side comparison of **up to 3 vehicles**.
 - Radar chart and criterion-by-criterion comparison.
 - Criteria weights and scoring rationale.
